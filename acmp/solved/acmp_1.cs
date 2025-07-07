@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System.Threading.Tasks;
+using System.Globalization;
 
 namespace Acmp
 {
@@ -11,17 +13,17 @@ namespace Acmp
         {            
             CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
 
-            _reader = new StreamReader(Console.OpenStandardInput());
-            _writer = new StreamWriter(Console.OpenStandardOutput());
+            var reader = new StreamReader(Console.OpenStandardInput());
+            var writer = new StreamWriter(Console.OpenStandardOutput());
 
-            var input = _reader.ReadLine();
+            var input = reader.ReadLine();
             var array = input.Split(' ');
 
             var sum = array.Sum(item => int.Parse(item));
-            _writer.WriteLine(sum);
+            writer.WriteLine(sum);
 
-            _reader.Close();
-            _writer.Close();
+            reader.Close();
+            writer.Close();
         }
     }
 }
