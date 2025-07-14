@@ -16,27 +16,13 @@ namespace timus.in_progress
 
             var answer = string.Empty;
 
-            for(int i = 0; i < 10000; i++)
-            {
-                if((i + 1) % 2 == 0)
-                {
-                    if(i == second)
-                    {
-                        answer = "yes";
-                    }
-                }
-
-                if((i + 1)% 2 != 0)
-                {
-                    if(i == first)
-                    {
-                        answer = "yes";
-                    }
-                }
-            }
-            if(string.IsNullOrEmpty(answer))
-            {
+            if((first + 1) % 2 == 0 && (second + 1) % 2 != 0)
+            {  
                 answer = "no";
+            }
+            else
+            {
+                answer = "yes";
             }
 
             Console.WriteLine(answer);
