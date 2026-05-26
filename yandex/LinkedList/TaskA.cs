@@ -33,12 +33,12 @@ namespace yandex.LinkedList
                     }
                     case 2:
                     {
-                        result.Add(GetNumber(arr[2], list));
+                        result.Add(GetNumber(arr[1], list));
                         break;
                     }
                     case 3:
                     {
-                        RemoveNumber(arr[2], list);
+                        RemoveNumber(arr[1], list);
                         break;   
                     }
                     default:
@@ -65,7 +65,7 @@ namespace yandex.LinkedList
             {
                 var i = 0;
                 var currentNode = list.First;
-                while(currentNode is not null && i < afterPosition)
+                while(currentNode.Next is not null && i < afterPosition)
                 {
                     currentNode = currentNode.Next;
                     i++;
@@ -78,7 +78,7 @@ namespace yandex.LinkedList
         {
             var i = 0;
             var currentNode = list.First;
-            while(currentNode is not null && i < position)
+            while(currentNode.Next is not null && i < position)
             {
                 currentNode = currentNode.Next;
                 i++;
@@ -91,7 +91,7 @@ namespace yandex.LinkedList
         {
             var i = 0;
             var currentNode = list.First;
-            while(currentNode is not null && i < position)
+            while(currentNode.Next is not null && i < position)
             {
                 currentNode = currentNode.Next;
                 i++;
