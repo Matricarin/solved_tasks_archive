@@ -33,12 +33,12 @@ namespace yandex.LinkedList
                     }
                     case 2:
                     {
-                        result.Add(GetNumber(arr[2]));
+                        result.Add(GetNumber(arr[2], list));
                         break;
                     }
                     case 3:
                     {
-                        RemoveNumber(arr[2]);
+                        RemoveNumber(arr[2], list);
                         break;   
                     }
                     default:
