@@ -12,7 +12,7 @@ namespace yandex.LinkedList
             System.Globalization.CultureInfo.DefaultThreadCurrentCulture =
                                 System.Globalization.CultureInfo.InvariantCulture;
 
-            var list = new LinkedList<int>();
+            var list = new ListSolver();
             var result = new List<int>();
 
             var inputs = int.Parse(Console.ReadLine());
@@ -28,17 +28,17 @@ namespace yandex.LinkedList
                 {
                     case 1:
                     {
-                        AddNumber(arr[1], arr[2], list);
+                        list.AddNumber(arr[1], arr[2]);
                         break;
                     }
                     case 2:
                     {
-                        result.Add(GetNumber(arr[1], list));
+                        result.Add(list.GetNumber(arr[1]));
                         break;
                     }
                     case 3:
                     {
-                        RemoveNumber(arr[1], list);
+                        list.RemoveNumber(arr[1]);
                         break;   
                     }
                     default:
@@ -55,42 +55,54 @@ namespace yandex.LinkedList
 
         }
 
-        public static void AddNumber(int afterPosition, int number, LinkedList<int> list)
+    }
+
+    public class ListSolver
+    {
+        private LinkedList<int> _list;
+
+        public ListSolver()
+        {
+            _list = new LinkedList<int>();
+        }
+
+        
+        public void AddNumber(int afterPosition, int number)
         {
             if(afterPosition == 0)
             {
-                list.AddFirst(number);
+                _list.AddFirst(number);
             }
             else
             {
                 var i = 0;
-                var currentNode = list.First;
+                var currentNode = _list.First;
                 while(currentNode.Next is not null && i < afterPosition)
                 {
                     currentNode = currentNode.Next;
                     i++;
                 }
-                list.AddAfter(currentNode, number);
+                _list.AddAfter(currentNode, number);
             }
         }
 
-        public static void RemoveNumber(int position, LinkedList<int> list)
+        public  void RemoveNumber(int position)
         {
             var i = 0;
-            var currentNode = list.First;
+            var currentNode = _list.First;
             while(currentNode.Next is not null && i < position)
             {
                 currentNode = currentNode.Next;
                 i++;
             }
 
-            list.Remove(currentNode);
+            _list.Remove(currentNode);
         }
 
-        public static int GetNumber(int position, LinkedList<int> list)
+        public int GetNumber(int position)
         {
             var i = 0;
-            var currentNode = list.First;
+            var currentNode = _list.First;
             while(currentNode.Next is not null && i < position)
             {
                 currentNode = currentNode.Next;
