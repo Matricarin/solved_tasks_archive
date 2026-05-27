@@ -67,7 +67,7 @@ namespace yandex.LinkedList
         }
 
         
-        public void AddNumber(int afterPosition, int number)
+        public void AddNumber(int afterPosition, int number) // O(n)
         {
             if(afterPosition == 0)
             {
@@ -75,9 +75,9 @@ namespace yandex.LinkedList
             }
             else
             {
-                var i = 0;
+                var i = 1;
                 var currentNode = _list.First;
-                while(currentNode.Next is not null && i < afterPosition)
+                while(i < afterPosition)
                 {
                     currentNode = currentNode.Next;
                     i++;
@@ -86,11 +86,11 @@ namespace yandex.LinkedList
             }
         }
 
-        public  void RemoveNumber(int position)
+        public  void RemoveNumber(int position) // O(n)
         {
-            var i = 0;
+            var i = 1;
             var currentNode = _list.First;
-            while(currentNode.Next is not null && i < position)
+            while(i < position)
             {
                 currentNode = currentNode.Next;
                 i++;
@@ -99,11 +99,11 @@ namespace yandex.LinkedList
             _list.Remove(currentNode);
         }
 
-        public int GetNumber(int position)
+        public int GetNumber(int position) // O(n)
         {
-            var i = 0;
+            var i = 1;
             var currentNode = _list.First;
-            while(currentNode.Next is not null && i < position)
+            while(i < position)
             {
                 currentNode = currentNode.Next;
                 i++;
@@ -112,3 +112,8 @@ namespace yandex.LinkedList
         }
     }
 }
+
+// Общая сложность получается будет такой:
+// Каждый метод имеет O(n)
+// Количество запросов q
+// Если будет q вызовов одного метода, то получается O(q * n(n - 1)/2) = O(q * n^2)
