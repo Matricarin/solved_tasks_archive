@@ -33,44 +33,50 @@ namespace yandex.LinkedList
 
         public string Solve()
         {
-            var imin = int.MaxValue;
-            var jmin = int.MaxValue;
-            var imax = int.MinValue;
-            var jmax = int.MinValue;
+            var linkedList = new LinkedList<int>();
 
-            int imin_index = 0; 
-            var jmin_index = 0; 
-            var imax_index = 0; 
-            var jmax_index = 0;
-
-            for(int i = 0; i < _array.Length; i++)
+            for(var i = 0; i < _array.Length; i++)
             {
-                if(_array[i] < imin)
+                if(linkedList.Count == 0)
                 {
-                    imin = _array[i];
-                    imin_index = i;
+                    linkedList.AddFirst(i);
+                    continue;
                 }
 
-                if(_array[i] > jmax && i > imin_index)
+                var currentNode = linkedList.First;
+                while(currentNode is not null)
                 {
-                    jmax = _array[i];
-                    jmax_index = i;
+                    if(_array[currentNode.Value] > _array[i])
+                    {
+                        linkedList.AddBefore(currentNode, i);
+                        break;
+                    }
+                    currentNode = currentNode.Next ?? null;
+                }
+                linkedList.AddLast(i);
+            }
+
+            var max = linkedList.Last.Value;
+
+            var afterMax = int.MinValue;
+            var beforeMax = int.MinValue;
+
+            var cn = linkedList.First;
+            while(cn is not null)
+            {
+                cn = cn.Next ?? null;
+                if(cn.Value < max && beforeMax == int.MaxValue)
+                {
+                    beforeMax = cn.Value;
                 }
 
-                if(_array[i] > imax)
+                if(cn.Value > max && afterMax == int.MaxValue)
                 {
-                    imax = _array[i];
-                    imax_index = i;
-                }
-
-                if(imax < jmin && i > imax_index)
-                {
-                    jmin = _array[i];
-                    jmin_index = i;
+                    afterMax = cn.Value;
                 }
             }
 
-            return string.Join(Environment.NewLine, [$"{imin_index + 1} {jmax_index + 2}", $"{imax_index + 1} {jmin_index + 1}"]);
+            return string.Join(Environment.NewLine, [$"{beforeMax} {max}", $"{max} {afterMax}"]);
         }
     }
 }
