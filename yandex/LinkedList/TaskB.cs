@@ -33,50 +33,50 @@ namespace yandex.LinkedList
 
         public string Solve()
         {
-            var linkedList = new LinkedList<int>();
-
-            for(var i = 0; i < _array.Length; i++)
-            {
-                if(linkedList.Count == 0)
+            var min = int.MaxValue;
+            var max = int.MinValue;
+            var i1 = 0; var j1 = 0; var i2 = 0; var j2 = 0;
+            for(int i = 0; i < _array.Length; i++)
+            {               
+                for(int j = i + 1; j < _array.Length; j++)
                 {
-                    linkedList.AddFirst(i);
-                    continue;
-                }
-
-                var currentNode = linkedList.First;
-                while(currentNode is not null)
-                {
-                    if(_array[currentNode.Value] > _array[i])
+                    if(_array[i] - _array[j] < min)
                     {
-                        linkedList.AddBefore(currentNode, i);
-                        break;
+                        min = _array[i] - _array[j];
+                        i1 = i; j1 = j;
                     }
-                    currentNode = currentNode.Next ?? null;
+
+                    if(_array[i] - _array[j] > max)
+                    {
+                        max = _array[i] - _array[j];
+                        i2 = i; j2 = j;
+                    }
                 }
-                linkedList.AddLast(i);
             }
 
-            var max = linkedList.Last.Value;
+            var diff = new Diff(i1+1, j1+1, i2+1, j2+1);
 
-            var afterMax = int.MinValue;
-            var beforeMax = int.MinValue;
+            return diff.ToString();
+        }
 
-            var cn = linkedList.First;
-            while(cn is not null)
+        private class Diff
+        {
+            public int I1{get;}
+            public int J1{get;}
+            public int I2{get;}
+            public int J2{get;}
+            public Diff(int i1, int j1, int i2, int j2)
             {
-                cn = cn.Next ?? null;
-                if(cn.Value < max && beforeMax == int.MaxValue)
-                {
-                    beforeMax = cn.Value;
-                }
-
-                if(cn.Value > max && afterMax == int.MaxValue)
-                {
-                    afterMax = cn.Value;
-                }
+                I1 = i1;
+                J1 = j1;
+                I2 = i2;
+                J2 = j2;
             }
 
-            return string.Join(Environment.NewLine, [$"{beforeMax} {max}", $"{max} {afterMax}"]);
+            public override string ToString()
+            {
+                return string.Join(Environment.NewLine, $"{I1} {J1}", $"{I2} {J2}");
+            }
         }
     }
 }
