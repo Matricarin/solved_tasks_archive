@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace YandexContest
 {
@@ -16,26 +17,38 @@ namespace YandexContest
             _writer = new StreamWriter(Console.OpenStandardOutput());
 
             var n = ReadInt();
-            var nArray = ReadIntArray();
+            var nArray = ReadFastIntArray(n);
             var m = ReadInt();
-            var mArray = ReadIntArray();
+            var mArray = ReadFastIntArray(m);
 
-            var nf = nArray[0]; var nl = nArray[^1];
-            var mf = mArray[0]; var ml = mArray[^1];
+            var i = 0;
+            var j = 0;
+            var min = int.MaxValue;
             var nValue = 0;
             var mValue = 0;
-            var nmDiff = Math.Abs(nf - ml);
-            var mnDiff = Math.Abs(nl - mf);
-
-            if(nmDiff == mnDiff)
-            {
-                
+            while(i < n && j < m)
+            {                
+                if(min > Math.Abs(nArray[i] - mArray[j]))
+                {
+                    min = Math.Abs(nArray[i] - mArray[j]);
+                    nValue = nArray[i];
+                    mValue = mArray[j];
+                    if(min == 0)
+                    {
+                        break;
+                    }
+                }
+                if(nArray[i] > mArray[j])
+                {
+                    j++;
+                }
+                else
+                {
+                    i++;
+                }
             }
             
-
-
-
-            _writer.WriteLine($"{nArray[sInd]} {mArray[pInd]}");
+            _writer.WriteLine($"{nValue} {mValue}");
             _reader.Close();
             _writer.Close();
         }
@@ -50,6 +63,35 @@ namespace YandexContest
             return _reader?.ReadLine()!.Split(" ")
                                     .Select(int.Parse)
                                     .ToArray()!;
+        }
+
+        private static int[] ReadFastIntArray(int size)
+        {
+            var array = new int[size];
+            var current = 0;
+            var index = 0;
+            var sym = 0;
+            var hasNumber = false;
+            while(index < size)
+            {
+                sym = _reader.Read();
+                if(sym >= '0' && sym <= '9')
+                {
+                    var d = sym - '0';
+                    current = current * 10 + d;
+                    hasNumber = true;
+                    continue;
+                }
+
+                if(hasNumber)
+                {                 
+                    array[index] = current;
+                    current = 0;
+                    hasNumber = false;
+                    index++;   
+                }                
+            }
+            return array;
         }
     }
 }
