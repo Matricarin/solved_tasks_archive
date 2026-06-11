@@ -22,13 +22,47 @@ namespace YandexContest
             var d = ReadInt();
             var e = ReadInt();
 
-            if(a % d == 0 && b % e == 0)
+            var arr = new int[]{a, b, c};
+
+            var buckets = new int[4];
+
+            foreach(var item in arr)
             {
-                _writer.WriteLine("YES");
+                if(item % d == 0 && item % e == 0)
+                {
+                    buckets[2]++;
+                }
+                
+                if(item % d == 0 && item % e != 0)
+                {
+                    buckets[0]++;
+                }
+                
+                if(item % e == 0 && item % d != 0)
+                {
+                    buckets[1]++;
+                }
+
+                if(item % d != 0 && item % e != 0)
+                {
+                    buckets[3]++;
+                }
             }
 
+            var answer = string.Empty;
 
+            if((buckets[0] != 0 && buckets[1] != 0) 
+                || buckets[2] >= 2 
+                || buckets[2] != 0 && (buckets[0] != 0 || buckets[1] != 0))
+            {
+                answer = "YES";
+            }
+            else
+            {
+                answer = "NO";
+            }
 
+            _writer.WriteLine(answer);
            
             _reader.Close();
             _writer.Close();
