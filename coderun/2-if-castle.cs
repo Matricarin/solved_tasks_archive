@@ -28,22 +28,22 @@ namespace YandexContest
 
             foreach(var item in arr)
             {
-                if(item % d == 0 && item % e == 0)
+                if(d >= item && e >= item)
                 {
                     buckets[2]++;
                 }
                 
-                if(item % d == 0 && item % e != 0)
+                if(d >= item && e < item)
                 {
                     buckets[0]++;
                 }
                 
-                if(item % e == 0 && item % d != 0)
+                if(e >= item && d < item)
                 {
                     buckets[1]++;
                 }
 
-                if(item % d != 0 && item % e != 0)
+                if(d < item && e < item)
                 {
                     buckets[3]++;
                 }
