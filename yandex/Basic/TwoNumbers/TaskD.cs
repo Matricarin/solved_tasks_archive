@@ -10,33 +10,34 @@ namespace yandex.Basic.TwoNumbers
         public static void Main(string[] args)
         {
             var input = ReadIntArray();
-            var a = new int[input[0]][];
-            var b = new int[input[0]][];
-            var result = new int[input[0]][];
 
-            for(int i = 0; i < a.Length; i++)
+            var row = input[0];
+            var column = input[1];
+
+            var a = new int[row][];
+
+            for (int i = 0; i < a.Length; i++)
             {
                 a[i] = ReadIntArray();
             }
 
-            for(int i = 0; i < b.Length; i++)
-            {
-                b[i] = ReadIntArray();
-            }
+            var result = new int[row][];
 
-            for(int j = 0; j < input[0]; j++)
+            for (int j = 0; j < row; j++)
             {
-                result[j] = new int[input[1]];
+                result[j] = new int[column];
 
-                for(int k = 0; k < input[1]; k++)
+                var b = ReadIntArray();
+
+                for (int k = 0; k < column; k++)
                 {
-                    result[j][k] = a[j][k] + b[j][k];
+                    result[j][k] = a[j][k] + b[k];
                 }
             }
 
-            foreach(var row in result)
+            foreach (var line in result)
             {
-                Console.WriteLine(string.Join(" ", row));
+                Console.WriteLine(string.Join(" ", line));
             }
         }
 
