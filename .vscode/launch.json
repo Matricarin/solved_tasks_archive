@@ -9,7 +9,7 @@
           "name": "C#: my file launch profile",
             "type": "dotnet",
             "request": "launch",
-            "projectPath": "${workspaceFolder}/yandex/DataStructures/Set/TaskD.cs"
+            "projectPath": "${workspaceFolder}/yandex/DataStructures/Set/TaskE.cs"
         }
 
     ]
