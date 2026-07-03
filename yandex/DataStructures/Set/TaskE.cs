@@ -17,26 +17,36 @@ namespace yandex.DataStructures.Set
                 using(_writer = new StreamWriter("output.txt"))
                 {
                     var n = int.Parse(_reader.ReadLine());
+                    
+                    var array = Array.ConvertAll
+                    (
+                        _reader.ReadLine().Split(" ", StringSplitOptions.RemoveEmptyEntries),
+                        int.Parse
+                    );
 
-                    var array = _reader.ReadLine()
-                        .Split(" ", StringSplitOptions.RemoveEmptyEntries)
-                        .Select(int.Parse)
-                        .ToArray();
+                    var result = new HashSet<int>();
 
-                    var hash = new HashSet<int>();
+                    var current = new HashSet<int>();
 
-                    for (int left = 0; left < n; left++)
+                    foreach(var i in array)
                     {
-                        int cur = 0;
+                        var next = new HashSet<int>();
+                        next.Add(i);
 
-                        for (int right = left; right < n; right++)
+                        foreach(var c in current)
                         {
-                            cur |= array[right];
-                            hash.Add(cur);
+                            next.Add(c | i);
                         }
-                    }
 
-                    _writer.WriteLine(hash.Count);
+                        foreach(var v in next)
+                        {
+                            result.Add(v);
+                        }
+
+                        current = next;
+                    }
+                    
+                    _writer.WriteLine(result.Count);
                 }
             }
         }
