@@ -8,51 +8,65 @@ namespace yandex.DataStructures.Dictionary
 {
     public static class Program
     {
-        private static TextReader? _reader;
-        private static TextWriter? _writer;
         public static void Main(string[] args)
         {
-            using(_reader = new StreamReader("input.txt"))
+            using var reader = new StreamReader("input.txt");
+            using var writer = new StreamWriter("output.txt");
+
+            if (!int.TryParse(reader.ReadLine(), out int n)) return;
+
+            var patternCount = new Dictionary<string, int>();
+            var wordCount = new Dictionary<string, int>();
+
+            long totalInterestingPairs = 0;
+
+            for (int i = 0; i < n; i++)
             {
-                using(_writer = new StreamWriter("output.txt"))
+                string word = reader.ReadLine();
+                if (string.IsNullOrEmpty(word)) 
                 {
-                    var dict = new Dictionary<char, HashSet<int>>();
+                    continue;
+                }
 
-                    var n = int.Parse(_reader.ReadLine());
-                    var counter = 0;
-                    for(int i = 0; i < n; i++)
+                int len = word.Length;
+                long pairsForThisWord = 0;
+
+                char[] wordChars = word.ToCharArray();
+
+                for (int j = 0; j < len; j++)
+                {
+                    char originalChar = wordChars[j];
+                    wordChars[j] = '*'; 
+                    
+                    string pattern = new string(wordChars);
+
+                    if (patternCount.TryGetValue(pattern, out int count))
                     {
-                        var line = _reader.ReadLine();
-                        var diffCounter = 0;
-                        for(int j = 0; j < line.Length; j++)
-                        {
-                            if(dict.TryGetValue(line[j], out var set))
-                            {       
-                                if(!set.Contains(j))
-                                {
-                                    diffCounter++;
-                                }
-                            }
-                            else
-                            {
-                                diffCounter++;
-                            }
-
-                            if(!dict.TryAdd(line[j], [j]))
-                            {
-                                dict[line[j]].Add(j);
-                            }  
-                        }
-
-                        if(diffCounter == 1)
-                        {
-                            counter++;
-                        }
+                        pairsForThisWord += count;
+                        patternCount[pattern] = count + 1;
+                    }
+                    else
+                    {
+                        patternCount[pattern] = 1;
                     }
 
-                    _writer.WriteLine(counter);
+                    wordChars[j] = originalChar; 
                 }
+
+                if (wordCount.TryGetValue(word, out int exactMatches))
+                {
+                    pairsForThisWord -= (long)exactMatches * len;
+                    wordCount[word] = exactMatches + 1;
+                }
+                else
+                {
+                    wordCount[word] = 1;
+                }
+
+                totalInterestingPairs += pairsForThisWord;
             }
+
+            writer.WriteLine(totalInterestingPairs);
         }
     }
 }

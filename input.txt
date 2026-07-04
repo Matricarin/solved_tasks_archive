@@ -1,6 +1,5 @@
-5
-rom
-bom
-dom
-bot
-rot
+4
+aa
+aa
+ab
+aa
