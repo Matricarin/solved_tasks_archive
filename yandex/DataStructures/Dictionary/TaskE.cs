@@ -16,39 +16,38 @@ namespace yandex.DataStructures.Dictionary
             {
                 using(_writer = new StreamWriter("output.txt"))
                 {
-                    var dict = new Dictionary<string, int>();
+                    var dict = new Dictionary<char, HashSet<int>>();
 
                     var n = int.Parse(_reader.ReadLine());
                     var counter = 0;
                     for(int i = 0; i < n; i++)
                     {
                         var line = _reader.ReadLine();
-
-                        foreach(var kv in dict)
+                        var diffCounter = 0;
+                        for(int j = 0; j < line.Length; j++)
                         {
-                            if(kv.Key.Equals(line))
-                            {
-                                continue;
-                            }
-
-                            var diff = 0;
-
-                            for(int j = 0; j < line.Length; j++)
-                            {
-                                if(line[j] - kv.Key[j] != 0)
+                            if(dict.TryGetValue(line[j], out var set))
+                            {       
+                                if(!set.Contains(j))
                                 {
-                                    diff++;
+                                    diffCounter++;
                                 }
                             }
-
-                            if(diff > 1)
+                            else
                             {
-                                continue;
+                                diffCounter++;
                             }
-                            counter++;
+
+                            if(!dict.TryAdd(line[j], [j]))
+                            {
+                                dict[line[j]].Add(j);
+                            }  
                         }
 
-                        dict.TryAdd(line, 0);
+                        if(diffCounter == 1)
+                        {
+                            counter++;
+                        }
                     }
 
                     _writer.WriteLine(counter);
