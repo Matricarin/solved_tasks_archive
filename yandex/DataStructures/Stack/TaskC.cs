@@ -21,8 +21,6 @@ namespace yandex.DataStructures.Stack
             var hasNumber = false;
             var number = 0;
             var i = 0;
-            var max =  int.MinValue;
-            var prevoiusMaxCount = 0;
             while(i < n)
             {
                 sym = reader.Read();
@@ -38,24 +36,25 @@ namespace yandex.DataStructures.Stack
                 {
                     hasNumber = false;
 
-                    var counter = 0;
-                    // todo: неправильный ответ при последовательности [6 3 5 5 6]
-                    while(stack.Count != 0 && stack.Peek() < number)
+                    if(stack.Count == 0)
                     {
-                        stack.Pop();
-                        counter++;
-                    }
-
-                    if(max < number)
-                    {
-                        max = number;
-                        prevoiusMaxCount += counter;
-                        result[i] = prevoiusMaxCount;
+                        result[i] = 0;
                     }
                     else
                     {
+                        var other = new Stack<int>();
+                        var counter = 0;
+                        while(stack.Count != 0 && stack.Peek() < number)
+                        {
+                            other.Push(stack.Pop());
+                            counter++;
+                        }
                         result[i] = counter;
-                    } 
+                        while(other.Count != 0)
+                        {
+                            stack.Push(other.Pop());
+                        }                       
+                    }
 
                     stack.Push(number);
                     i++;
