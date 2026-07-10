@@ -22,17 +22,11 @@ namespace yandex.DataStructures.Stack
 
             var stack = new Stack<char>();
 
-            var sym = char.MinValue;
-            var flag = true;
+            int end;
             var isCorrect = true;
-            while(flag)
+            while((end = reader.Read()) != -1)
             {
-                sym = (char)reader.Read();
-                if(!char.IsPunctuation(sym))
-                {
-                    flag = false;
-                    continue;
-                }
+                var sym = (char)end;
                 if(!_dict.TryGetValue(sym, out var bracket))
                 {
                     stack.Push(sym);
