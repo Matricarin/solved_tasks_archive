@@ -20,33 +20,28 @@ namespace yandex.DataStructures.Stack
                 int.Parse
             );
             var max = 0;
+            var stack = new Stack<int>();
+            stack.Push(-1);
+
             for(int i = 0; i < n; i++)
             {   
-                var stack = new Stack<int>();
-                var length = 0;
-                for(int j = i; j < n; j++)
+                if(array[i] % 2 != 0)
                 {
-                    if(array[j] % 2 == 1)
+                    stack.Push(i);
+                }
+                else
+                {
+                    stack.TryPop(out _);
+
+                    if(stack.Count == 0)
                     {
-                        stack.Push(array[j]);
-                    }
-                    else if(array[j] % 2 == 0 && stack.Count != 0)
-                    {
-                        stack.Pop();
-                        length += 2;
-                        if(stack.Count == 0)
-                        {
-                            if(max < length)
-                            {
-                                max = length;
-                            }
-                        }
+                        stack.Push(i);
                     }
                     else
                     {
-                        break;
+                        max = Math.Max(max, i - stack.Peek());
                     }
-                }                
+                }
             }
 
             writer.WriteLine(max);

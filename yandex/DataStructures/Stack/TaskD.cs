@@ -40,3 +40,4 @@ namespace yandex.DataStructures.Stack
         }
     }
 }
+
