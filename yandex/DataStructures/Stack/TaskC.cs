@@ -36,27 +36,7 @@ namespace yandex.DataStructures.Stack
                 {
                     hasNumber = false;
 
-                    if(stack.Count == 0)
-                    {
-                        result[i] = 0;
-                    }
-                    else
-                    {
-                        var other = new Stack<int>();
-                        var counter = 0;
-                        while(stack.Count != 0 && stack.Peek() < number)
-                        {
-                            other.Push(stack.Pop());
-                            counter++;
-                        }
-                        result[i] = counter;
-                        while(other.Count != 0)
-                        {
-                            stack.Push(other.Pop());
-                        }                       
-                    }
 
-                    stack.Push(number);
                     i++;
                     number = 0;
                 }
