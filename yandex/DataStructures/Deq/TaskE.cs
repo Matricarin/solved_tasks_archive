@@ -1,10 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.IO;
 
-namespace yandex.DataStructures.Deq
+namespace Yandex.DataStructures.Deq
 {
     public class Program
     {
@@ -13,77 +10,63 @@ namespace yandex.DataStructures.Deq
             using var reader = new StreamReader("input.txt");
             using var writer = new StreamWriter("output.txt");
 
-            var n = int.Parse(reader.ReadLine());
+            string nStr = reader.ReadLine();
+            if (string.IsNullOrEmpty(nStr)) return;
 
-            var array = Array.ConvertAll
-            (
-                reader.ReadLine().Split(" ", StringSplitOptions.RemoveEmptyEntries),
+            int n = int.Parse(nStr);
+            var array = Array.ConvertAll(
+                reader.ReadLine().Split(' ', StringSplitOptions.RemoveEmptyEntries),
                 int.Parse
             );
 
-            var deq = new LinkedList<int>(array);
-
-            while(deq.Count > 2)
+            if (n == 2)
             {
-                var current = deq.First;
-                var left = deq.Last;
-                var right = current.Next;
+                writer.WriteLine($"{array[0]} {array[1]}");
+                return;
+            }
 
-                if(current.Value < left.Value)
+            int[] left = new int[n];
+            int[] right = new int[n];
+
+            for (int i = 0; i < n; i++)
+            {
+                left[i] = (i - 1 + n) % n;
+                right[i] = (i + 1) % n;
+            }
+
+            int current = 0;
+            int remainingCount = n;
+
+            while (remainingCount > 2)
+            {
+                int lIdx = left[current];
+                int rIdx = right[current];
+
+                int cVal = array[current];
+                int lVal = array[lIdx];
+                int rVal = array[rIdx];
+
+                int minIdx = current;
+                if (lVal < array[minIdx]) minIdx = lIdx;
+                if (rVal < array[minIdx]) minIdx = rIdx;
+
+                int maxIdx = current;
+                if (lVal > array[maxIdx]) maxIdx = lIdx;
+                if (rVal > array[maxIdx]) maxIdx = rIdx;
+
+                left[right[minIdx]] = left[minIdx];
+                right[left[minIdx]] = right[minIdx];
+                remainingCount--;
+
+                if (remainingCount == 2)
                 {
-                    if(current.Value < right.Value)
-                    {
-                        deq.Remove(current);
-                    }
-                    else
-                    {
-                        deq.Remove(right);
-                    }
+                    break;
                 }
-                else
-                {
-                    if(left.Value < right.Value)
-                    {
-                        deq.Remove(left);
-                    }
-                    else
-                    {
-                        deq.Remove(right);
-                    }
-                }
 
-                if(deq.Count != 2)
-                {
-                    if(current.Value > left.Value)
-                    {
-                        if(current.Value > right.Value)
-                        {
-                            deq.Remove(current);
-                            deq.AddFirst(current);
-                        }
-                        else
-                        {
-                            deq.Remove(right);
-                            deq.AddFirst(right);
-                        }
-                    }
-                    else
-                    {
-                        if(left.Value > right.Value)
-                        {
-                            deq.Remove(left);
-                            deq.AddFirst(left);
-                        }
-                        else
-                        {   
-                            deq.Remove(right);
-                            deq.AddFirst(right);
-                        }
-                    }
-                }                
-            }            
+                current = maxIdx;
+            }
 
-            writer.WriteLine(string.Join(" ", deq));
+            writer.WriteLine($"{array[current]} {array[right[current]]}");
         }
     }
 }
