@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.IO;
+using System.Diagnostics;
 
 namespace yandex.Basic.MaximumProduct
 {
@@ -21,7 +22,7 @@ namespace yandex.Basic.MaximumProduct
             }
             else
             {
-                double c = n + (n - 3) * 2.0;
+                double c = n + (n - 3);
                 double d = c / n;
                 if(d <= 1.5)
                 {
