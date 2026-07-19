@@ -53,3 +53,37 @@ namespace yandex.Basic.MaximumProduct
         }
     }
 }
+
+
+// O(nlogn)
+// using System;
+// using System.Collections.Generic;
+// using System.Linq;
+// using System.Threading.Tasks;
+// using System.IO;
+
+// namespace yandex.Basic.MaximumProduct
+// {
+//     public class Program
+//     {
+//         public static void Main(string[] args)
+//         {
+//             using var reader = new StreamReader("input.txt");
+//             using var writer = new StreamWriter("output.txt");
+
+//             var n = long.Parse(reader.ReadLine());
+
+//             var array = Array.ConvertAll
+//             (
+//                 reader.ReadLine().Split(" ", StringSplitOptions.RemoveEmptyEntries),
+//                 long.Parse
+//             );
+
+//             Array.Sort(array);
+
+//             long max = array[^1] * array[^2];
+
+//             writer.WriteLine(max);
+//         }
+//     }
+// }
