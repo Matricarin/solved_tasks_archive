@@ -34,7 +34,7 @@ namespace yandex.Basic.MaximumProduct
                 }
             }
 
-            for(int j = 0; j < n; n++)
+            for(int j = 0; j < n; j++)
             {
                 if(maxIndex == j)
                 {
@@ -49,7 +49,7 @@ namespace yandex.Basic.MaximumProduct
 
             long maxProduct = max * previousMax;
 
-            writer.WriteLine(max);
+            writer.WriteLine(maxProduct);
         }
     }
 }
