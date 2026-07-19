@@ -18,59 +18,50 @@ namespace yandex.Basic.MaximumProduct
             var arr = Array.ConvertAll
             (
                 reader.ReadLine().Split(" ", StringSplitOptions.RemoveEmptyEntries),
-                int.Parse
+                long.Parse
             );
 
-            var nums = new int[3];
-            Array.Fill(nums,  0);
+            if (n == 3)
+            {
+                writer.WriteLine(arr[0] * arr[1] * arr[2]);
+                return;
+            }
+
+            Array.Sort(arr);
             long max = long.MinValue;
-            var mi = int.MinValue;
-            for(int i = 0; i < n; i++)
-            {
-                if(arr[i] > mi)
-                {
-                    mi = arr[i];
-                    nums[0] = i;
-                }
-            }
+            long r2 = arr[^1] * arr[^2];
+            long l2 = arr[0] * arr[1];
 
-            var mj = int.MinValue;
-
-            for(int j = 0; j < n; j++)
+            if (r2 > l2)
             {
-                if(j == nums[0])
+                if (arr[0] < 0)
                 {
-                    continue;
+                    if (l2 * arr[^1] > r2 * arr[^3])
+                    {
+                        max = l2 * arr[^1];
+                    }
+                    else
+                    {
+                        max = r2 * arr[^3];
+                    }
                 }
                 else
                 {
-                    if(arr[j] > mj)
-                    {
-                        mj = arr[j];
-                        nums[1] = j;
-                    }
+                    max = r2 * arr[^3];
                 }
             }
-
-            var mk = int.MinValue;
-
-            for(int k = 0; k < n; k++)
+            else
             {
-                if(k == nums[0] || k == nums[1])
+                if (arr[^1] > 0)
                 {
-                    continue;
+                    max = l2 * arr[^1];
                 }
                 else
                 {
-                    if(arr[k] > mk)
-                    {
-                        mk = arr[k];
-                        nums[2] = k;
-                    }
+                    max = r2 * arr[^3];
                 }
             }
 
-            max = arr[nums[0]] * arr[nums[1]] * arr[nums[2]];
             writer.WriteLine(max);
         }
     }
