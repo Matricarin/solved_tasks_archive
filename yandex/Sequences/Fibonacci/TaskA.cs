@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace yandex.Sequences.Fibonacci
 {
@@ -9,20 +10,35 @@ namespace yandex.Sequences.Fibonacci
     {
         public static void Main(string[] args)
         {
-            var n = 30;
-            var list = new List<long>();
-            list.Add(1);
+            using var reader = new StreamReader("input.txt");
+            using var writer = new StreamWriter("output.txt");
 
-            long prev = 0;
-            long curr = 1;
-            for(int i = 3; i <= n; i++)
+            var n = int.Parse(reader.ReadLine());
+
+            long first = 0;
+            long second = 1;
+
+            if(n == 0)
             {
-                long next = prev + curr;
-                prev = curr;
-                curr = next;
-                list.Add(curr % 4);
+                writer.WriteLine(first); 
+                return;
             }
-            Console.WriteLine(string.Join(" ", list));
+
+            if(n == 1)
+            {
+                writer.WriteLine(second); 
+                return;
+            }
+            long third = 0;
+
+            for(int i = 2; i <= n; i++)
+            {                 
+                third = second + first;
+                first = second;
+                second = third;
+            }
+
+            writer.WriteLine(third);
         }
     }
 }
