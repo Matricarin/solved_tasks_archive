@@ -20,31 +20,36 @@ namespace yandex.Sequences.Fibonacci
                 long.Parse
             );
 
-            BigInteger zero = BigInteger.One;
-            BigInteger first = BigInteger.One;
-            BigInteger fn = new BigInteger();
+            var period = GetPisanoPeriod(arr[1]);
 
-            if(arr[0] == 1)
+            BigInteger current = BigInteger.Zero;
+            BigInteger next = BigInteger.One;
+            for(long i = 2; i <= period; i++)
             {
-                fn = zero;
+                var oldNext = next;
+                next = current + next;
+                current = next;
             }
-            else if(arr[0] == 1)
+
+            writer.WriteLine(next % new BigInteger(arr[1]));            
+        }     
+
+        public static long GetPisanoPeriod(long m)
+        {
+            long current = 0;
+            long next = 1;
+            long period = 0;
+            while(true)
             {
-                fn = first;
-            }
-            else
-            {
-                for(long i = 3; i <= arr[0]; i++ )
+                var oldNext = next;
+                next = (current + next) % m;
+                current = oldNext;
+                period++;
+                if(current == 0 && next == 1)
                 {
-                    fn = zero + first;
-                    zero = first;
-                    first = fn;
+                    return period;
                 }
             }
-
-            var mod = fn % new BigInteger(arr[1]);
-
-            writer.WriteLine(mod.ToString());
-        }        
+        }   
     }
 }
