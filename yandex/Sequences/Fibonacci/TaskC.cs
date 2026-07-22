@@ -20,36 +20,57 @@ namespace yandex.Sequences.Fibonacci
                 long.Parse
             );
 
-            var period = GetPisanoPeriod(arr[1]);
-
-            BigInteger current = BigInteger.Zero;
-            BigInteger next = BigInteger.One;
-            for(long i = 2; i <= period; i++)
+            if (arr[0] == 0)
             {
-                var oldNext = next;
-                next = current + next;
-                current = next;
+                writer.WriteLine(0);
+                return;
             }
 
-            writer.WriteLine(next % new BigInteger(arr[1]));            
-        }     
+            if (arr[0] == 1)
+            {
+                writer.WriteLine(1);
+                return;
+            }
 
-        public static long GetPisanoPeriod(long m)
+            var m = new long[2][];
+
+            m[0] = [1, 1];
+            m[1] = [1, 0];
+
+            var row = RowMatrix(m, arr[0], arr[1]);
+
+            writer.WriteLine(row[0][1]);
+
+        }
+
+        public static long[][] MultiplyMatrixWithMod(long[][] a, long[][] b, long m)
         {
-            long current = 0;
-            long next = 1;
-            long period = 0;
-            while(true)
+            var result = new long[2][];
+            result[0] = new long[] { (a[0][0] * b[0][0] + a[0][1] * b[1][0]) % m, (a[0][0] * b[0][1] + a[0][1] * b[1][1]) % m };
+            result[1] = new long[] { (a[1][0] * b[0][0] + a[1][1] * b[1][0]) % m, (a[1][0] * b[0][1] + a[1][1] * b[1][1]) % m };
+            return result;
+        }
+
+        public static long[][] RowMatrix(long[][] a, long power, long m)
+        {
+            var result = new long[2][];
+            result[0] = [1, 0];
+            result[1] = [0, 1];
+
+            var source = a;
+
+            while (power > 0)
             {
-                var oldNext = next;
-                next = (current + next) % m;
-                current = oldNext;
-                period++;
-                if(current == 0 && next == 1)
+                if (power % 2 == 1)
                 {
-                    return period;
+                    result = MultiplyMatrixWithMod(result, source, m);
                 }
+
+                source = MultiplyMatrixWithMod(source, source, m);
+                power /= 2;
             }
-        }   
+
+            return result;
+        }
     }
 }
