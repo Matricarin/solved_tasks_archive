@@ -39,10 +39,10 @@ namespace yandex.Graphs.Graph
             var actions = reader.ReadLine();
             var cells = new HashSet<(int, int)>
             {
-                (start[0], start[1])
+                (start[0] - 1, start[1] - 1)
             };
-            var current = (start[0], start[1]);
-            var target = (start[0] - 1, start[1]);
+            var current = (start[0] - 1, start[1] - 1);
+            var target = (current.Item1 - 1, current.Item2);
             foreach (var action in actions)
             {
                 var dir = (target.Item1 - current.Item1, target.Item2 - current.Item2);
