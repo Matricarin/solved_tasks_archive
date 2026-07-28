@@ -64,7 +64,6 @@ namespace yandex.Graphs.Graph
             }
 
             PrintMatrix(first, writer);
-            writer.WriteLine();
             PrintMatrix(second, writer);            
         }
 
