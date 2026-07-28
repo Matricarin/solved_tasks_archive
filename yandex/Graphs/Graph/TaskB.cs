@@ -90,7 +90,7 @@ namespace yandex.Graphs.Graph
                         }
                     case 'M':
                         {
-                            if (target.Item1 < n && target.Item2 < m)
+                            if (target.Item1 < n && target.Item2 < m && target.Item1 >= 0 && target.Item2 >= 0)
                             {
                                 var sym = room[target.Item1][target.Item2];
 
