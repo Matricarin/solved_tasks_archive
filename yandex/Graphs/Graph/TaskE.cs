@@ -25,9 +25,20 @@ namespace yandex.Graphs.Graph
                 );
             }
 
-            for(int j = 0; j < n; j++)
+            for(int x = 0; x < n; x++)
             {
-                writer.WriteLine(string.Join(" ", adjMatrix[j]));
+                for(int y = 0; y < n; y++)
+                {
+                    for(int z = 0; z < n; z++)
+                    {
+                        adjMatrix[y][z] = adjMatrix[y][z] | (adjMatrix[y][x] & adjMatrix[x][z]);
+                    }
+                }   
+            }
+
+            for(int k = 0; k < n; k++)
+            {
+                writer.WriteLine(string.Join(" ", adjMatrix[k]));
             }
         }
     }
