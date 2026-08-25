@@ -8,6 +8,8 @@ namespace yandex.Graphs.Traversal
 {
     public class TaskA
     {
+        private const string Yes = "YES";
+        private const string No = "NO";
         public static void Main(string[]  args)
         {
             using var reader = new StreamReader("input.txt");
@@ -22,53 +24,53 @@ namespace yandex.Graphs.Traversal
 
             var gamesAmount = input[1];
 
-            var scores = new int[playersAmount];
-
-            var played = new int[playersAmount];
-
-            var matrix = new int[playersAmount][];
-
-            for(int i = 0; i < playersAmount; i++)
+            if(playersAmount < gamesAmount - 1)
             {
-                matrix[i] = new int[playersAmount];
+                writer.WriteLine(No);
+                return;
             }
 
-            for(int g = 0; g < gamesAmount; g++)
-            {
-                var game = Array.ConvertAll(
-                    reader.ReadLine().Split(" ", StringSplitOptions.RemoveEmptyEntries),
-                    int.Parse
-                );
+            var adjList = new List<int>[playersAmount];
 
-                matrix[game[0] - 1][game[1] - 1] = game[game[2] - 1];
-                matrix[game[1] - 1][game[0] - 1] = game[game[2] - 1];
+            for(var l = 0; l < adjList.Length; l++)
+            {
+                adjList[l] = new List<int>();
             }
 
-            for(int x = 0; x < playersAmount; x++)
+            var won = new HashSet<int>();
+
+            for(int i = 0; i < gamesAmount; i++)
             {
-                for(int y = 0; y < playersAmount; y++)
+                var stat = reader.ReadLine()
+                .Split(" ", StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToArray();
+                var widx = stat[2] - 1;
+                var w = stat[widx];
+                var l = stat[1 - widx];
+
+                adjList[l - 1].Add(w - 1);
+            }
+
+            for(int j = 0; j < adjList.Length; j++)
+            {
+                var stack = new Stack<int>(adjList[j]);
+                while(stack.Count > 0)
                 {
-                    if(matrix[x][y] == 0)
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        played[x]++;
-                        played[y]++;
-                        scores[matrix[x][y] - 1]++;
-                    }
+                    var p = stack.Pop();
+                    won.Add(p);
                 }
             }
 
-            if(played.Any(p => p == 0))
+            if(won.Count == playersAmount - 1)
             {
-                writer.WriteLine("NO");
+                writer.WriteLine(Yes);
             }
             else
             {
-                writer.WriteLine("YES");
+                writer.WriteLine(No);
             }
+            
         }
     }
 }
