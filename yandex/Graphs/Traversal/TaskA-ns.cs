@@ -24,7 +24,7 @@ namespace yandex.Graphs.Traversal
 
             var gamesAmount = input[1];
 
-            if(playersAmount < gamesAmount - 1)
+            if(gamesAmount < playersAmount - 1)
             {
                 writer.WriteLine(No);
                 return;
