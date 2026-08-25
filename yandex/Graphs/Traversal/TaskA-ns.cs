@@ -31,13 +31,12 @@ namespace yandex.Graphs.Traversal
             }
 
             var adjList = new List<int>[playersAmount];
+            var loses = new int[playersAmount];
 
             for(var l = 0; l < adjList.Length; l++)
             {
                 adjList[l] = new List<int>();
             }
-
-            var won = new HashSet<int>();
 
             for(int i = 0; i < gamesAmount; i++)
             {
@@ -50,27 +49,50 @@ namespace yandex.Graphs.Traversal
                 var l = stat[1 - widx];
 
                 adjList[l - 1].Add(w - 1);
+                loses[l - 1]++;
             }
 
-            for(int j = 0; j < adjList.Length; j++)
+            var q = new Queue<int>();
+
+            for(int l = 0; l < loses.Length; l++)
             {
-                var stack = new Stack<int>(adjList[j]);
-                while(stack.Count > 0)
+                if(loses[l] == 0)
                 {
-                    var p = stack.Pop();
-                    won.Add(p);
+                    q.Enqueue(l);
                 }
             }
 
-            if(won.Count == playersAmount - 1)
+            int processed = 0;
+
+            while(q.Count > 0)
+            {
+                if(q.Count > 1)
+                {
+                    writer.WriteLine(No);
+                    return;
+                }
+
+                var c = q.Dequeue();
+                processed++;
+
+                foreach(var p in adjList[c])
+                {
+                    loses[p]--;
+                    if(loses[p] == 0)
+                    {
+                        q.Enqueue(p);
+                    }
+                }
+            }
+
+            if(processed == playersAmount)
             {
                 writer.WriteLine(Yes);
             }
             else
             {
                 writer.WriteLine(No);
-            }
-            
+            }            
         }
     }
 }
