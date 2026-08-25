@@ -48,7 +48,7 @@ namespace yandex.Graphs.Traversal
                 var w = stat[widx];
                 var l = stat[1 - widx];
 
-                adjList[l - 1].Add(w - 1);
+                adjList[w - 1].Add(l - 1);
                 loses[l - 1]++;
             }
 
