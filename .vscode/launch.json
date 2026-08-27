@@ -9,7 +9,7 @@
           "name": "C#: my file launch profile",
             "type": "dotnet",
             "request": "launch",
-            "projectPath": "${workspaceFolder}/yandex/Graphs/Traversal/TaskB-ns.cs"
+            "projectPath": "${workspaceFolder}/olympic_practicum/lesson2/Task1.cs"
         }
 
     ]
