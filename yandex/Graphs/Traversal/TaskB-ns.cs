@@ -15,33 +15,39 @@ namespace yandex.Graphs.Traversal
 
             var arr = Array.ConvertAll(
                 reader.ReadLine().Split(" ", StringSplitOptions.RemoveEmptyEntries),
-                int.Parse
+                long.Parse
             );
 
             var x = arr[0];
             var y = arr[1];
 
-            var adjList = new List<int>[10];
+            var adjList = new List<long>[10];
+            var depth = 1;
+            var notFound = true;
 
             for(int i = 0; i < 10; i++)
             {
-                adjList[i] = new List<int>();
+                adjList[i] = new List<long>();
 
                 var a = x + i;
                 var m = x * i;
                 var d = x - i;
 
+                if(a == y || d == y || m == y)
+                {
+                    notFound = false;
+                    break;
+                }          
+
                 adjList[i].Add(a);
                 adjList[i].Add(d);
                 adjList[i].Add(m);
             }
-
-            var depth = 1;
-            var notFound = true;
+  
             while(notFound)
             {
                 depth++;
-                var q = new Queue<int>();
+                var q = new Queue<long>();
                 for(int k = 0; k < 10; k++)
                 {
                     if(!notFound)
@@ -61,7 +67,7 @@ namespace yandex.Graphs.Traversal
                         break;
                     }
                     
-                    adjList[k] = new List<int>();
+                    adjList[k] = new List<long>();
 
                     while(q.Count > 0)
                     {
