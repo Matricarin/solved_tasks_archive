@@ -21,93 +21,76 @@ namespace yandex.Graphs.Traversal
             var x = arr[0];
             var y = arr[1];
 
-            var adjList = new List<long>[10];
-            var depth = 1;
-            var notFound = true;
-            var less = y < x;
-
-            for(int i = 0; i < 10; i++)
-            {
-                adjList[i] = new List<long>();
-
-                var a = x + i;
-                var m = x * i;
-                var d = x - i;
-
-                if(a == y || d == y || m == y)
-                {
-                    notFound = false;
-                    break;
-                }          
-                if(less)
-                {
-                    
-                }
-
-                adjList[i].Add(a);
-                adjList[i].Add(d);
-                adjList[i].Add(m);
-            }
-  
-            while(notFound)
-            {
-                depth++;
-                var q = new Queue<long>();
-                for(int k = 0; k < 10; k++)
-                {
-                    if(!notFound)
-                    {
-                        break;
-                    }
-
-                    var list = adjList[k];
-
-                    foreach(var item in list)
-                    {
-                        q.Enqueue(item);
-                    }
-
-                    if(!notFound)
-                    {
-                        break;
-                    }
-                    
-                    adjList[k] = new List<long>();
-
-                    while(q.Count > 0)
-                    {
-                        if(!notFound)
-                        {
-                            break;
-                        }
-
-                        var c = q.Dequeue();
-
-                        for(int i = 0; i < 10; i++)
-                        {
-                            var na = c + i;
-                            var nd = c - i;
-                            var nm = c * i; 
-
-                            if(na == y || nd == y || nm == y)
-                            {
-                                notFound = false;
-                                break;
-                            }                      
-
-                            adjList[k].Add(na);
-                            adjList[k].Add(nd);
-                            adjList[k].Add(nm);
-                        }                        
-                    }
-                }
-            }
-
-            writer.WriteLine(depth);
+            writer.WriteLine(Solve(x, y));
         }
 
-    }
-   
-}
+        public static int Solve(long x, long y)
+        {
+            if (x == y)
+            {
+                return 0;
+            }
 
+            var visited = new HashSet<long>() { x };
+            var q = new Queue<long>();
+
+            q.Enqueue(x);
+
+            var depth = 0;
+
+            while (q.Count > 0)
+            {
+                depth++;
+
+                var levelSize = q.Count;
+                for (int i = 0; i < levelSize; i++)
+                {
+                    var c = q.Dequeue();
+
+                    for (int j = 0; j < 10; j++)
+                    {
+                        var na = c + j;
+
+                        if (y == na)
+                        {
+                            return depth;
+                        }
+
+                        if (visited.Add(na))
+                        {
+                            q.Enqueue(na);
+                        }
+
+                        var nd = c - j;
+
+                        if (y == nd)
+                        {
+                            return depth;
+                        }
+
+                        if (visited.Add(nd))
+                        {
+                            q.Enqueue(nd);
+                        }
+
+                        var nm = c * j;
+
+                        if (y == nm)
+                        {
+                            return depth;
+                        }
+
+                        if (visited.Add(nm))
+                        {
+                            q.Enqueue(nm);
+                        }
+                    }
+                }
+            }
+
+            return -1;
+        }
+    }
+
+}
 
