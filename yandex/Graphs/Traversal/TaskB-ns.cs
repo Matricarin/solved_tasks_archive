@@ -24,6 +24,7 @@ namespace yandex.Graphs.Traversal
             var adjList = new List<long>[10];
             var depth = 1;
             var notFound = true;
+            var less = y < x;
 
             for(int i = 0; i < 10; i++)
             {
@@ -38,6 +39,10 @@ namespace yandex.Graphs.Traversal
                     notFound = false;
                     break;
                 }          
+                if(less)
+                {
+                    
+                }
 
                 adjList[i].Add(a);
                 adjList[i].Add(d);
