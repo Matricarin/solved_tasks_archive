@@ -21,31 +21,22 @@ namespace yandex.Graphs.Traversal
             var x = arr[0];
             var y = arr[1];
 
-            var visited = new HashSet<int>();
-
             var adjList = new List<int>[10];
 
             for(int i = 0; i < 10; i++)
             {
                 adjList[i] = new List<int>();
+
                 var a = x + i;
-                var m = x + i;
+                var m = x * i;
                 var d = x - i;
-                if(visited.Add(a))
-                {
-                    adjList[i].Add(a);
-                }
-                if(visited.Add(d))
-                {
-                    adjList[i].Add(d);
-                }                
-                if(visited.Add(m))
-                {
-                    adjList[i].Add(m);
-                }
+
+                adjList[i].Add(a);
+                adjList[i].Add(d);
+                adjList[i].Add(m);
             }
 
-            var depth = 0;
+            var depth = 1;
             var notFound = true;
             while(notFound)
             {
@@ -57,39 +48,46 @@ namespace yandex.Graphs.Traversal
                     {
                         break;
                     }
+
                     var list = adjList[k];
+
                     foreach(var item in list)
                     {
                         q.Enqueue(item);
+                    }
+
+                    if(!notFound)
+                    {
+                        break;
                     }
                     
                     adjList[k] = new List<int>();
 
                     while(q.Count > 0)
                     {
+                        if(!notFound)
+                        {
+                            break;
+                        }
+
                         var c = q.Dequeue();
 
-                        var na = c + k;
-                        var nd = c - k;
-                        var nm = c * k;
-
-                        if(na == y || nd == y || nm == y)
+                        for(int i = 0; i < 10; i++)
                         {
-                            notFound = false;
-                        }
+                            var na = c + i;
+                            var nd = c - i;
+                            var nm = c * i; 
 
-                        if(visited.Add(na))
-                        {
+                            if(na == y || nd == y || nm == y)
+                            {
+                                notFound = false;
+                                break;
+                            }                      
+
                             adjList[k].Add(na);
-                        }
-                        if(visited.Add(nd))
-                        {
                             adjList[k].Add(nd);
-                        }                
-                        if(visited.Add(nm))
-                        {
                             adjList[k].Add(nm);
-                        }
+                        }                        
                     }
                 }
             }
